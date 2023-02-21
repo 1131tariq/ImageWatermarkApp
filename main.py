@@ -8,17 +8,6 @@ wtrmrks = []
 raw_wtr = []
 finished_products = []
 filename = ""
-# -----------------------------------------------------------------------
-# def wtrpasity(event):
-#     global wtrmrks, raw_wtr
-#     opacity = int(watermark_opacity.get())
-#     image1 = Image.open(raw_wtr[-1])
-#     image1.putalpha(round((opacity/100)*255))
-#     image1.thumbnail((img.width, img.height))
-#     wtrmrks[-1] = image1
-#     wtrsize(watermark_size.get())
-#     wtrpos(pos.get())
-# -----------------------------------------------------------------------
 def wtrsize(event):
     global wtrmrks, raw_wtr
     percentage = watermark_size.get()
@@ -32,25 +21,7 @@ def wtrsize(event):
         h = int(2*percentage)
         w = round(h*wdth/height)
         img = image1.resize((w,h))
-
-    opacity = watermark_opacity.get()/100
-    # img.convert("RGBA")
-    # pixels = img.load()
-    # for y in range(int(height * .55), int(height * .75)):
-    #     alpha = 255 - int((y - height * .55) / height / .20 * 255)
-    #     for x in range(wdth):
-    #         pixels[x, y] = pixels[x, y][:3] + (alpha,)
-    # for y in range(y, height):
-    #     for x in range(wdth):
-    #         pixels[x, y] = pixels[x, y][:3] + (0,)
-
-    img.convert("RGBA")
-    assert 0 <= opacity <= 1
-    alpha = img.split()[2]
-    alpha = ImageEnhance.Brightness(alpha).enhance(opacity)
-    img.putalpha(alpha)
     img.thumbnail((img.width, img.height))
-    img.putalpha(alpha)
     wtrmrks.append(img)
     wtrpos(pos.get())
 # -----------------------------------------------------------------------
@@ -253,16 +224,6 @@ size.get()
 watermark_size = Scale(watermark_section, variable=size, command=lambda x: wtrsize(size), orient=HORIZONTAL, length=300, bg="grey", highlightthickness=0, borderwidth=0)
 watermark_size.set(50)
 watermark_size.grid(column=0, row=4)
-
-watermark_opacity_label = Label(watermark_section, text="\nWatermark Opacity", font=("sans", 9, "bold"), bg="grey")
-watermark_opacity_label.grid(column=0, row=5)
-
-pcty = IntVar()
-pcty.get()
-
-watermark_opacity = Scale(watermark_section, variable=pcty, command=lambda x: wtrsize(size), orient=HORIZONTAL, length=300, bg="grey", highlightthickness=0, borderwidth=0)
-watermark_opacity.set(100)
-watermark_opacity.grid(column=0, row=6)
 
 watermark_position_frame = Frame(watermark_section, bg="grey")
 watermark_position_frame.grid(column=0, row=7)
